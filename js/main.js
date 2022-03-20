@@ -1,63 +1,66 @@
 
-let rate = 0;
+let offset = 50;
+let tileStep = (innerHeight - offset) / 6;
+let startSize = tileStep;
+let degreeDirections = [ -1,-2,-3]  //the degree to which in inner circles move
+let innerDirections = [ -1, 1] //the direction in which in the inner circles move
+
+const COLORS = [[238, 66, 102], [31, 64, 104], [242, 228, 181]]; // pinkish/red, navy, beige
+
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
-  noStroke();
-  fill(3, 105, 175);
+  background(0);
+  stroke(0, 32, 63);
+  strokeWeight(4)
+  noLoop();
 }
 
-//ellipses will move faster when the right arrow key is pressed and will move backwards when the back arrow key is pressed
-function draw() {
-  drawEllipse()
-  rate = rate + 0.01
-  if (keyIsDown(LEFT_ARROW)) {
-    rate = rate - 0.02;
-  }
 
-  if (keyIsDown(RIGHT_ARROW)) {
-    rate = rate + 0.01;
+//recursive function for inner circles
+drawCircle = (x, y, diameter, xMovement, yMovement, steps,
+              direction) => {
+
+  let random_index = Math.floor(Math.random() * COLORS.length);
+  const [r, g, b] = COLORS[random_index];
+  //const [r, g, b] = COLORS[random_index];
+  fill(r, g, b);
+  circle(x, y, diameter); 
+  
+  //base case
+  if(steps >= 0) { 
+    let newSize = (startSize) * (steps / startSteps); 
+    let Xdir;
+    let Ydir;
+      if(direction == 1){                     //statement that determines if circles will go left/up or right/down
+        Xdir = x - (diameter - newSize) / 2
+        Ydir = y - (diameter - newSize) / 2
+      } else {
+        Xdir = x + (diameter - newSize) / 2
+        Ydir = y + (diameter - newSize) / 2
+      }
+      Xdir = Xdir - ((x - Xdir) / (steps + 2)) * xMovement   //xMovement and yMovement determine the degree to which the circles move left/up or right/down
+      Ydir = Ydir - ((y - Ydir) / (steps + 2)) * yMovement 
+
+    drawCircle(Xdir, Ydir, newSize, xMovement, yMovement, steps - 1, direction);
   }
   
- 
 }
 
 
-function drawEllipse() {
-  background(0,10);
-  // x and y grid of ellipses
-  for (let x = 0; x <= innerWidth; x = x + 30) {
-    for (let y = 0; y <= innerHeight; y = y + 30) {
-      // starting point of each ellipse depends on mouseX and mouseY
-      const xAngle = map(mouseX, 0, innerWidth, -4 * PI, 4 * PI);
-      const yAngle = map(mouseY, 0, innerHeight, -4 * PI, 4 * PI);
-      const angle = xAngle * (x / innerWidth) + yAngle * (y / innerHeight);
-      const startX = x + 25 * cos(2 * PI * rate + angle);
-      const startY = y + 25 * sin(2 * PI * rate + angle);
-
-      ellipse(startX, startY, 10);
-    }
-  }
-
-}
-
-//ocean wave pallete - honolulu blue, Jungle Green, rich electric blue, ocean green with a tinge of blue
-const COLORS = [[3, 105, 175], [48, 194, 165], [19, 148, 215], [68, 189, 194]];
-
-
-
-let i = 1
-
-//the ellipses will iterate through ocean colors everytime the spacebar key is pressed
-function keyPressed() {
-  if (keyCode === 32) {
-    const [r, g, b] = COLORS[i];
-    fill(r, g, b);
-    i++
-    if (i==COLORS.length) {
-      i = 0
+function draw(){  
+  setTimeout(draw,2500)
+    
+  for( let x = offset; x < innerWidth ; x += tileStep) {
+    for( var y = offset; y < innerHeight ; y += tileStep) {
+      startSteps = 2 + Math.ceil(Math.random() * 3)   //2 inner circles is the default, and 1-3 inner circlesare added for some variance
+      let xDirection = degreeDirections[Math.floor(Math.random() * degreeDirections.length)];
+      let yDirection = degreeDirections[Math.floor(Math.random() * degreeDirections.length)];
+      let direction = innerDirections[Math.floor(Math.random() * innerDirections.length)];
+      drawCircle(x, y, startSize, xDirection, yDirection, startSteps - 1, direction)
     }
   }
 }
+
 
 

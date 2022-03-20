@@ -1,11 +1,5 @@
-# FORM + CODE
+# 10print.js
 
-right arrow key: speeds up waves
-left arrow key: reverses waves
-spacebar: changes water wave color to reflect types of bodies of water
+[![10 print](https://i3.ytimg.com/vi/m9joBLOZVEo/hqdefault.jpg)](https://youtu.be/m9joBLOZVEo)
 
-
-
-![p5.js + canvas](http://i3.ytimg.com/vi/s01IVHrWmjM/maxresdefault.jpg)
-
-In this assignment we'll be experimenting with algorithmic composition using the web's [Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) (for creating interactive and generative 2D drawings) via the [p5.js](https://p5js.org/) library. As I explain the intro video for the [playlist](https://www.youtube.com/playlist?list=PLoQrXDiSBWYE1qs4cnM_wPIA_pEMHQmLE) associated with this assignment, the goal is to create an algorithmic (visual) composition where the same code produces slightly different visual outputs each time it's run (ie. each time we refresh the page and/or as we interact with it).
+This repo contains a JavaScript implementation of the classic Commodore 64 10 print one-liner. This program is the subject of the book [10 PRINT CHR$(205.5+RND(1)); : GOTO 10](https://10print.org/) (the title of which is the algorithm implemented in the language Basic). For this assignment I want you to fork this repo and create your own variation/remix on this classic algorithm. Before you do so, make sure you read the chapter from the book on Randomness (included in this repo) and also make sure you've watched the videos I put together, where I explain every aspect of this algorithm step by step as well as some other ideas/starters for how you might approach remixing it.
